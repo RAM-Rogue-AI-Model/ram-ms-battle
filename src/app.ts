@@ -1,6 +1,6 @@
 import express from 'express';
 import 'dotenv/config';
-import battleRoutes from './src/routes/battleRoutes';
+import battleRoutes from './routes/battleRoutes';
 
 const app = express();
 const port = process.env.PORT || 3002;
