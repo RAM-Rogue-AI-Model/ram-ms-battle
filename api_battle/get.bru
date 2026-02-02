@@ -1,0 +1,15 @@
+meta {
+  name: Get Battle
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseUrl}}/battle/mock-battle-id
+  body: none
+  auth: none
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3002
+}

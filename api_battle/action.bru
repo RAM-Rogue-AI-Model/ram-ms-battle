@@ -1,0 +1,21 @@
+meta {
+  name: Perform Action
+  type: http
+  seq: 3
+}
+
+put {
+  url: {{baseUrl}}/battle/mock-battle-id/action
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "action": "ATTACK"
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3002
+}

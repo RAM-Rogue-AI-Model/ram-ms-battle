@@ -1,0 +1,22 @@
+meta {
+  name: Create Battle
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseUrl}}/battle
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "playerId": "mock-player-id",
+    "roomId": "mock-room-id"
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3002
+}

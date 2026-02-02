@@ -1,11 +1,15 @@
 import express from 'express';
 import 'dotenv/config';
+import battleRoutes from './src/routes/battleRoutes';
 
 const app = express();
 const port = process.env.PORT || 3002;
 
-app.get('/', (req, res) => {
-  res.send('Hello Battle!');
+app.use(express.json());
+app.use('/battle', battleRoutes);
+
+app.get('/health', (req, res) => {
+  res.send('Battle Service Ready');
 });
 
 app.listen(port, () => {
