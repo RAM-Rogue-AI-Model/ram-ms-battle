@@ -3,7 +3,8 @@ import { Effect } from './Effect';
 import { Enemy } from './Enemy';
 import { Player } from './Player';
 
-export interface CreateBattleInput {
+export interface Battle {
+  id: string;
   enemy: Enemy[];
   effect: Effect[];
   player: Player;
@@ -11,4 +12,5 @@ export interface CreateBattleInput {
   level_dungeon: number;
   actions: Actions;
   game_id: string;
+  is_ended: boolean;
 }

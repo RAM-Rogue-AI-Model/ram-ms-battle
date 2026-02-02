@@ -10,10 +10,35 @@ post {
   auth: none
 }
 
+headers {
+  x-internal-secret: 7cf734656f4fcd9fb035111fdd89c1d4f20777f36e3bf802c415592969b1eb2e
+}
+
 body:json {
   {
-    "playerId": "mock-player-id",
-    "roomId": "mock-room-id"
+    "enemy": [
+      {
+        "id": "123",
+        "name": "CHATGPT",
+        "pv": 200,
+        "attack": 15,
+        "speed": 10,
+        "probability_attack": 20
+      }
+    ],
+    "effect": [],
+    "player": {
+      "id": "1",
+      "name": "Hugo",
+      "pv": 300,
+      "attack": 20,
+      "speed": 50,
+      "user_id": 1
+    },
+    "pv": 300,
+    "level_dungeon": 1,
+    "game_id": "a",
+    "is_ended": false
   }
 }
 
