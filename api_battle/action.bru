@@ -5,14 +5,19 @@ meta {
 }
 
 put {
-  url: {{baseUrl}}/battle/mock-battle-id/action
+  url: {{baseUrl}}/battle/4f122311-d315-4ae6-8eb4-54aa2fe17894/action
   body: json
   auth: none
 }
 
+headers {
+  x-internal-secret: 7cf734656f4fcd9fb035111fdd89c1d4f20777f36e3bf802c415592969b1eb2e
+}
+
 body:json {
   {
-    "action": "ATTACK"
+    "type": "attack",
+    "target_id": "123"
   }
 }
 
