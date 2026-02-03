@@ -121,7 +121,10 @@ export class BattleController {
   async getBattleByGameId(req: Request, res: Response) {
     try {
       const gameId = req.params.id as string;
-      const battle: Battle = await this.battleService.getBattleByGameId(gameId);
+      const battle = await this.battleService.getBattleByGameId(gameId);
+      if(battle == null){
+        res.status(404).json({ error: 'Battle not found' });
+      }
       res.json(battle);
     } catch (error) {
       console.error(error);

@@ -52,7 +52,7 @@ export class BattleService {
           'WARN',
           `Battle not found with id: ${id}`
         );
-        throw new Error('Battle not found');
+        return null;
       }
       return JSON.parse(battle) as Battle;
     } catch (err) {
@@ -214,14 +214,14 @@ export class BattleService {
   async getBattleByGameId(game_id: string) {
     try {
       const battleId = await this.redis.get(game_id);
-      if (battleId === null) {
+      if (battleId === null || battleId === "") {
         void sendLog(
           'BATTLE',
           'OTHER',
           'WARN',
           `Battle not found with game_id: ${game_id}`
         );
-        throw new Error('Battle not found');
+        return null;
       }
       return await this.getBattle(battleId);
     } catch {
