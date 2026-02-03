@@ -124,6 +124,7 @@ export class BattleController {
       const battle = await this.battleService.getBattleByGameId(gameId);
       if(battle == null){
         res.status(404).json({ error: 'Battle not found' });
+        return;
       }
       res.json(battle);
     } catch (error) {
