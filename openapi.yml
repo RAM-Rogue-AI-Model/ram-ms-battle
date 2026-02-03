@@ -111,11 +111,11 @@ paths:
               $ref: '#/components/schemas/Action'
       responses:
         '200':
-          description: Résultat de l'action
+          description: Bataille mise à jour après l'action
           content:
             application/json:
               schema:
-                type: object
+                $ref: '#/components/schemas/Battle'
         '500':
           description: Erreur interne
 components:
@@ -150,8 +150,9 @@ components:
             $ref: '#/components/schemas/Action'
         game_id:
           type: string
-        is_ended:
-          type: boolean
+        winner:
+          type: string
+          enum: [player, enemy, null]
     CreateBattleInput:
       type: object
       required: [enemy, effect, player, pv, level_dungeon, actions, game_id]
