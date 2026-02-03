@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   title: Battle API
   version: 1.0.0
-  description: API de gestion des batailles pour le jeu RAM
+  description: API RAM - Battle microservice
 servers:
   - url: http://localhost:3002
 paths:
