@@ -26,13 +26,17 @@ export class BattleService {
     };
     try {
       await this.redis.set(id, JSON.stringify(battle));
+      if (input.game_id) {
+        console.log("Setting game_id in Redis:", input.game_id, id);
+        await this.redis.set(input.game_id, id);
+      }
       void sendLog('BATTLE', 'INSERT', 'INFO', `Battle created with id: ${id}`);
-    } catch (err) {
+    } catch {
       void sendLog(
         'BATTLE',
         'INSERT',
         'ERROR',
-        `Error creating battle with id: ${id} - ${err}`
+        `Error creating battle with id: ${id}`
       );
       throw new Error('Error creating battle');
     }
@@ -208,6 +212,30 @@ export class BattleService {
     }
   }
 
+  async getBattleByGameId(game_id: string) {
+    try {
+      const battleId = await this.redis.get(game_id);
+      if (battleId === null) {
+        void sendLog(
+          'BATTLE',
+          'OTHER',
+          'WARN',
+          `Battle not found with game_id: ${game_id}`
+        );
+        throw new Error('Battle not found');
+      }
+      return await this.getBattle(battleId);
+    } catch {
+      void sendLog(
+        'BATTLE',
+        'OTHER',
+        'ERROR',
+        `Error retrieving battle with game_id: ${game_id} - }`
+      );
+      throw new Error('Error retrieving battle');
+    }
+  }
+
   async deleteBattle(id: string) {
     try {
       const battle = await this.getBattle(id);
@@ -222,12 +250,12 @@ export class BattleService {
       }
       await this.redis.del(id);
       void sendLog('BATTLE', 'REMOVE', 'INFO', `Battle deleted with id: ${id}`);
-    } catch (err) {
+    } catch{
       void sendLog(
         'BATTLE',
         'REMOVE',
         'ERROR',
-        `Error deleting battle with id: ${id} - ${err}`
+        `Error deleting battle with id: ${id}`
       );
       throw new Error('Error deleting battle');
     }

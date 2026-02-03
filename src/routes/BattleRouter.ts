@@ -13,6 +13,10 @@ class BattleRouter {
       await battleController.create(req, res);
     });
 
+    this.router.route('/game/:id').get(authenticate, async (req, res) => {
+      await battleController.getBattleByGameId(req, res);
+    });
+
     this.router
       .route('/:id')
       .get(authenticate, async (req, res) => {
