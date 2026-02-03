@@ -22,7 +22,7 @@ export class BattleService {
       id,
       ...input,
       actions: {},
-      is_ended: false,
+      winner: null,
     };
     try {
       await this.redis.set(id, JSON.stringify(battle));
@@ -55,12 +55,12 @@ export class BattleService {
         return null;
       }
       return JSON.parse(battle) as Battle;
-    } catch (err) {
+    } catch {
       void sendLog(
         'BATTLE',
         'OTHER',
         'ERROR',
-        `Error retrieving battle with id: ${id} - ${err}`
+        `Error retrieving battle with id: ${id}`
       );
       throw new Error('Error retrieving battle');
     }
@@ -175,21 +175,21 @@ export class BattleService {
 
             if (battle.pv <= 0) {
               battle.pv = 0;
-              battle.is_ended = true;
+              battle.winner = 'enemy';
               break;
             }
           }
         }
         const enemyIsDead = battle.enemy.every((e) => e.pv <= 0);
         if (enemyIsDead) {
-          battle.is_ended = true;
+          battle.winner = 'player';
           break;
         }
       }
 
       const allEnemiesDead = battle.enemy.every((e) => e.pv <= 0);
       if (allEnemiesDead) {
-        battle.is_ended = true;
+        battle.winner = 'player';
       }
 
       await this.redis.set(id, JSON.stringify(battle));

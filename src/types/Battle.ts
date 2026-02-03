@@ -12,5 +12,5 @@ export interface Battle {
   level_dungeon: number;
   actions: Actions;
   game_id: string;
-  is_ended: boolean;
+  winner: 'player' | 'enemy' | null;
 }
