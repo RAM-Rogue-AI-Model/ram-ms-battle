@@ -27,7 +27,6 @@ export class BattleService {
     try {
       await this.redis.set(id, JSON.stringify(battle));
       if (input.game_id) {
-        console.log("Setting game_id in Redis:", input.game_id, id);
         await this.redis.set(input.game_id, id);
       }
       void sendLog('BATTLE', 'INSERT', 'INFO', `Battle created with id: ${id}`);
