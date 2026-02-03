@@ -7,11 +7,8 @@ services:
     restart: unless-stopped
     ports:
       - '3002:3002'
-    environment:
-      PORT: 3002
-      JWT_SECRET: ${JWT_SECRET}
-      INTERNAL_SECRET: ${INTERNAL_SECRET}
-      API_GATEWAY_URL: http://ram-api-gateway:3001
+    env_file:
+      - .env
     networks:
       - ram-shared-network
 
