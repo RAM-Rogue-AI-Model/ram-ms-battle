@@ -1,0 +1,230 @@
+openapi: 3.0.3
+info:
+  title: Battle API
+  version: 1.0.0
+  description: API de gestion des batailles pour le jeu RAM
+servers:
+  - url: http://localhost:3002
+paths:
+  /battle:
+    post:
+      summary: Créer une nouvelle bataille
+      tags: [Battle]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBattleInput'
+      responses:
+        '201':
+          description: Bataille créée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Battle'
+        '400':
+          description: Requête invalide
+        '500':
+          description: Erreur interne
+  /battle/game/{id}:
+    get:
+      summary: Récupérer une bataille par game_id
+      tags: [Battle]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Bataille trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Battle'
+        '404':
+          description: Bataille non trouvée
+        '500':
+          description: Erreur interne
+  /battle/{id}:
+    get:
+      summary: Récupérer une bataille par id
+      tags: [Battle]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Bataille trouvée
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Battle'
+        '404':
+          description: Non trouvé
+        '500':
+          description: Erreur interne
+    delete:
+      summary: Supprimer une bataille
+      tags: [Battle]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: Supprimé
+        '500':
+          description: Erreur interne
+  /battle/{id}/action:
+    put:
+      summary: Effectuer une action sur une bataille
+      tags: [Battle]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Action'
+      responses:
+        '200':
+          description: Résultat de l'action
+          content:
+            application/json:
+              schema:
+                type: object
+        '500':
+          description: Erreur interne
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Battle:
+      type: object
+      properties:
+        id:
+          type: string
+        enemy:
+          type: array
+          items:
+            $ref: '#/components/schemas/Enemy'
+        effect:
+          type: array
+          items:
+            $ref: '#/components/schemas/Effect'
+        player:
+          $ref: '#/components/schemas/Player'
+        pv:
+          type: integer
+        level_dungeon:
+          type: integer
+        actions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Action'
+        game_id:
+          type: string
+        is_ended:
+          type: boolean
+    CreateBattleInput:
+      type: object
+      required: [enemy, effect, player, pv, level_dungeon, actions, game_id]
+      properties:
+        enemy:
+          type: array
+          items:
+            $ref: '#/components/schemas/Enemy'
+        effect:
+          type: array
+          items:
+            $ref: '#/components/schemas/Effect'
+        player:
+          $ref: '#/components/schemas/Player'
+        pv:
+          type: integer
+        level_dungeon:
+          type: integer
+        actions:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/Action'
+        game_id:
+          type: string
+    Player:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        pv:
+          type: integer
+        attack:
+          type: integer
+        speed:
+          type: integer
+        user_id:
+          type: string
+    Enemy:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        pv:
+          type: integer
+        attack:
+          type: integer
+        speed:
+          type: integer
+        probability_attack:
+          type: number
+    Effect:
+      type: object
+      properties:
+        id:
+          type: string
+        stat_name:
+          type: string
+          enum: [pv, attack, speed]
+        count:
+          type: integer
+        modificator:
+          type: string
+        duration:
+          type: integer
+    Action:
+      type: object
+      properties:
+        type:
+          type: string
+          enum: [attack, item, defend]
+        target_id:
+          type: string

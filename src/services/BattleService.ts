@@ -247,8 +247,8 @@ export class BattleService {
         );
         throw new Error('Battle not found');
       }
-      await this.redis.del(id);
       void sendLog('BATTLE', 'REMOVE', 'INFO', `Battle deleted with id: ${id}`);
+      return await this.redis.del(id);
     } catch{
       void sendLog(
         'BATTLE',
