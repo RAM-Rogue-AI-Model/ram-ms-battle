@@ -1,4 +1,4 @@
-import { Actions } from './Actions';
+import { Actions, ActionsTour } from './Actions';
 import { Effect } from './Effect';
 import { Enemy } from './Enemy';
 import { Player } from './Player';
@@ -10,7 +10,7 @@ export interface Battle {
   player: Player;
   pv: number;
   level_dungeon: number;
-  actions: Actions;
+  actions: ActionsTour;
   game_id: string;
   winner: 'player' | 'enemy' | null;
 }

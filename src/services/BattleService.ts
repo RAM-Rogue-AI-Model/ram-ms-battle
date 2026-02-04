@@ -192,6 +192,9 @@ export class BattleService {
         battle.winner = 'player';
       }
 
+      const lastTurn = Object.keys(battle.actions).length + 1;
+      battle.actions[lastTurn] = actions;
+
       await this.redis.set(id, JSON.stringify(battle));
       void sendLog(
         'BATTLE',
