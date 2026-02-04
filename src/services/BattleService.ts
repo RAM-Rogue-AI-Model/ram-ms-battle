@@ -137,12 +137,12 @@ export class BattleService {
             const damageReduction = enemyArrayDefend.some(
               (e) => e.id === targetId
             )
-              ? 0
+              ? 0.5
               : 1;
             const damage = Math.floor(battle.player.attack * damageReduction);
             target.pv -= damage;
             actions.player = currentAttacker.action;
-            if (damageReduction === 0) {
+            if (damageReduction === 0.5) {
               actions[`enemy_${targetId}`] = {
                 type: 'defend',
                 target_id: battle.player.id,
@@ -162,14 +162,14 @@ export class BattleService {
         } else {
           const enemy = currentAttacker.entity;
           if (enemy.pv > 0 && battle.pv > 0) {
-            const damageReduction = input.type === 'defend' ? 0 : 1;
+            const damageReduction = input.type === 'defend' ? 0.5 : 1;
             const damage = Math.floor(enemy.attack * damageReduction);
             battle.pv -= damage;
             actions[`enemy_${enemy.id}`] = {
               type: 'attack',
               target_id: battle.player.id,
             };
-            if (damageReduction === 0) {
+            if (damageReduction === 0.5) {
               actions.player = { type: 'defend', target_id: enemy.id };
             }
 
