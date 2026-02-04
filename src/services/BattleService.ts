@@ -169,7 +169,7 @@ export class BattleService {
               type: 'attack',
               target_id: battle.player.id,
             };
-            if (damageReduction === 0.5) {
+            if (input.type === 'defend') {
               actions.player = { type: 'defend', target_id: enemy.id };
             }
 
