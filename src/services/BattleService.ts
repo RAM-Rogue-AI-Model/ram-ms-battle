@@ -126,6 +126,17 @@ export class BattleService {
       attackOrder.sort((a, b) => b.entity.speed - a.entity.speed);
 
       const actions: Actions = {};
+      if (input.type === 'item') {
+        actions.player = { type: 'item', target_id: input.target_id };
+      }else if(input.type === 'defend') {
+        actions.player = { type: 'defend', target_id: input.target_id };
+      }
+      enemyArrayDefend.forEach((enemy) => {
+        actions[`enemy_${enemy.id}`] = {
+          type: 'defend',
+          target_id: battle.player.id,
+        };
+      })
       while (attackOrder.length > 0) {
         const currentAttacker = attackOrder.shift();
         if (!currentAttacker) break;
@@ -142,12 +153,6 @@ export class BattleService {
             const damage = Math.floor(battle.player.attack * damageReduction);
             target.pv -= damage;
             actions.player = currentAttacker.action;
-            if (damageReduction === 0.5) {
-              actions[`enemy_${targetId}`] = {
-                type: 'defend',
-                target_id: battle.player.id,
-              };
-            }
 
             if (target.pv <= 0) {
               target.pv = 0;
@@ -169,9 +174,6 @@ export class BattleService {
               type: 'attack',
               target_id: battle.player.id,
             };
-            if (input.type === 'defend') {
-              actions.player = { type: 'defend', target_id: enemy.id };
-            }
 
             if (battle.pv <= 0) {
               battle.pv = 0;
