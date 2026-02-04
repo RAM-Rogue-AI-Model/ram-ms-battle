@@ -123,13 +123,15 @@ export class BattleController {
       const gameId = req.params.id as string;
       const battle = await this.battleService.getBattleByGameId(gameId);
       if(battle == null){
-        res.status(404).json({ error: 'Battle not found' });
-        return;
+        res.json({ error: 'Battle not found' });
+        return
       }
       res.json(battle);
+      return
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
+      return
     }
   }
 
