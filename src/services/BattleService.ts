@@ -128,7 +128,7 @@ export class BattleService {
       const actions: Actions = {};
       if (input.type === 'item') {
         actions.player = { type: 'item', target_id: input.target_id };
-      }else if(input.type === 'defend') {
+      } else if (input.type === 'defend') {
         actions.player = { type: 'defend', target_id: input.target_id };
       }
       enemyArrayDefend.forEach((enemy) => {
@@ -136,7 +136,7 @@ export class BattleService {
           type: 'defend',
           target_id: battle.player.id,
         };
-      })
+      });
       while (attackOrder.length > 0) {
         const currentAttacker = attackOrder.shift();
         if (!currentAttacker) break;
@@ -206,11 +206,12 @@ export class BattleService {
       );
       return battle;
     } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
       void sendLog(
         'BATTLE',
         'UPDATE',
         'ERROR',
-        `Error performing action in battle with id: ${id} - ${err}`
+        `Error performing action in battle with id: ${id} - ${errorMessage}`
       );
       throw new Error('Error performing action in battle');
     }
@@ -219,7 +220,7 @@ export class BattleService {
   async getBattleByGameId(game_id: string) {
     try {
       const battleId = await this.redis.get(game_id);
-      if (battleId === null || battleId === "") {
+      if (battleId === null || battleId === '') {
         void sendLog(
           'BATTLE',
           'OTHER',
@@ -254,7 +255,7 @@ export class BattleService {
       }
       void sendLog('BATTLE', 'REMOVE', 'INFO', `Battle deleted with id: ${id}`);
       return await this.redis.del(id);
-    } catch{
+    } catch {
       void sendLog(
         'BATTLE',
         'REMOVE',
@@ -265,7 +266,10 @@ export class BattleService {
     }
   }
 
-  async updateBattle(id:string,battle : CreateBattleInput) {
+  async updateBattle(
+    id: string,
+    battle: CreateBattleInput
+  ): Promise<Battle | null> {
     try {
       const existingBattle = await this.getBattle(id);
       if (existingBattle === null) {
@@ -285,12 +289,7 @@ export class BattleService {
         winner: existingBattle.winner,
       };
       await this.redis.set(id, JSON.stringify(updatedBattle));
-      void sendLog(
-        'BATTLE',
-        'UPDATE',
-        'INFO',
-        `Battle updated with id: ${id}`
-      );
+      void sendLog('BATTLE', 'UPDATE', 'INFO', `Battle updated with id: ${id}`);
       return updatedBattle;
     } catch {
       void sendLog(
@@ -299,8 +298,7 @@ export class BattleService {
         'ERROR',
         `Error updating battle with id: ${id}`
       );
-      throw new Error('Error updating battle');
+      return null;
     }
-
   }
 }

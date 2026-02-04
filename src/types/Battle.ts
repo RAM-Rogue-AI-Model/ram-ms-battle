@@ -1,4 +1,4 @@
-import { Actions, ActionsTour } from './Actions';
+import { ActionsTour } from './Actions';
 import { Effect } from './Effect';
 import { Enemy } from './Enemy';
 import { Player } from './Player';

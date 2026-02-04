@@ -9,13 +9,17 @@ class BattleRouter {
   constructor(battleController: BattleController) {
     this.router = express.Router();
 
-    this.router.route('/').post(requestDetails, authenticate, async (req, res) => {
-      await battleController.create(req, res);
-    });
+    this.router
+      .route('/')
+      .post(requestDetails, authenticate, async (req, res) => {
+        await battleController.create(req, res);
+      });
 
-    this.router.route('/game/:id').get(requestDetails, authenticate, async (req, res) => {
-      await battleController.getBattleByGameId(req, res);
-    });
+    this.router
+      .route('/game/:id')
+      .get(requestDetails, authenticate, async (req, res) => {
+        await battleController.getBattleByGameId(req, res);
+      });
 
     this.router
       .route('/:id')
@@ -29,9 +33,11 @@ class BattleRouter {
         await battleController.delete(req, res);
       });
 
-    this.router.route('/:id/action').put(requestDetails, authenticate, async (req, res) => {
-      await battleController.action(req, res);
-    });
+    this.router
+      .route('/:id/action')
+      .put(requestDetails, authenticate, async (req, res) => {
+        await battleController.action(req, res);
+      });
   }
 }
 

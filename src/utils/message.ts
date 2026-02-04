@@ -19,7 +19,7 @@ export async function sendLog(
       message,
       timestamp: new Date().toISOString(),
     });
-  } catch (err) {
-    // console.error('Logger indisponible', err);
+  } catch {
+    // Ignore logging errors
   }
 }

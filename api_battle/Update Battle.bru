@@ -1,0 +1,47 @@
+meta {
+  name: Update Battle
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{baseUrl}}/battle
+  body: json
+  auth: none
+}
+
+headers {
+  x-internal-secret: 8294edbffd40fedfa2d2061d35214b7acf79e771158177d4282801c1be3502dd
+}
+
+body:json {
+  {
+    "enemy": [
+      {
+        "id": "123",
+        "name": "CHATGPT",
+        "pv": 200,
+        "attack": 15,
+        "speed": 10,
+        "probability_attack": 20
+      }
+    ],
+    "effect": [],
+    "player": {
+      "id": "1",
+      "name": "Hugo",
+      "pv": 300,
+      "attack": 20,
+      "speed": 50,
+      "user_id": 1
+    },
+    "pv": 300,
+    "level_dungeon": 1,
+    "game_id": "a",
+    "is_ended": false
+  }
+}
+
+vars:pre-request {
+  baseUrl: http://localhost:3002
+}

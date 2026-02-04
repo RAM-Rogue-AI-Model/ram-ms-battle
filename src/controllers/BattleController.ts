@@ -122,16 +122,16 @@ export class BattleController {
     try {
       const gameId = req.params.id as string;
       const battle = await this.battleService.getBattleByGameId(gameId);
-      if(battle == null){
+      if (battle == null) {
         res.json({ error: 'Battle not found' });
-        return
+        return;
       }
       res.json(battle);
-      return
+      return;
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Internal Server Error' });
-      return
+      return;
     }
   }
 
@@ -140,14 +140,13 @@ export class BattleController {
       const id = req.params.id as string;
       const body = req.body as CreateBattleInput;
       const result = await this.battleService.updateBattle(id, body);
-      if (result == null) {
+      if (result === null) {
         res.status(404).json({ error: 'Not Found' });
         return;
       }
       res.json(result);
-    }catch {
+    } catch {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   }
-
 }
