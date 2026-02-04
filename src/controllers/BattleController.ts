@@ -132,4 +132,20 @@ export class BattleController {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   }
+
+  async update(req: Request, res: Response) {
+    try {
+      const id = req.params.id as string;
+      const body = req.body as CreateBattleInput;
+      const result = await this.battleService.updateBattle(id, body);
+      if (result == null) {
+        res.status(404).json({ error: 'Not Found' });
+        return;
+      }
+      res.json(result);
+    }catch {
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  }
+
 }

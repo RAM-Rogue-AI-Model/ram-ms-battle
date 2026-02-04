@@ -22,6 +22,9 @@ class BattleRouter {
       .get(authenticate, async (req, res) => {
         await battleController.get(req, res);
       })
+      .put(authenticate, async (req, res) => {
+        await battleController.update(req, res);
+      })
       .delete(authenticate, async (req, res) => {
         await battleController.delete(req, res);
       });

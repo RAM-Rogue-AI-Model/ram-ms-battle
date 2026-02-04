@@ -264,4 +264,43 @@ export class BattleService {
       throw new Error('Error deleting battle');
     }
   }
+
+  async updateBattle(id:string,battle : CreateBattleInput) {
+    try {
+      const existingBattle = await this.getBattle(id);
+      if (existingBattle === null) {
+        void sendLog(
+          'BATTLE',
+          'UPDATE',
+          'WARN',
+          `Battle not found with id: ${id}`
+        );
+        throw new Error('Battle not found');
+      }
+      const updatedBattle: Battle = {
+        ...existingBattle,
+        ...battle,
+        id: existingBattle.id,
+        actions: existingBattle.actions,
+        winner: existingBattle.winner,
+      };
+      await this.redis.set(id, JSON.stringify(updatedBattle));
+      void sendLog(
+        'BATTLE',
+        'UPDATE',
+        'INFO',
+        `Battle updated with id: ${id}`
+      );
+      return updatedBattle;
+    } catch {
+      void sendLog(
+        'BATTLE',
+        'UPDATE',
+        'ERROR',
+        `Error updating battle with id: ${id}`
+      );
+      throw new Error('Error updating battle');
+    }
+
+  }
 }
