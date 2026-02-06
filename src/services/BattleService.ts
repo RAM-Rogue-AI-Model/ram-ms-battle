@@ -13,7 +13,7 @@ export class BattleService {
   private redis: RedisClientType;
 
   constructor() {
-    this.redis = createClient({ url: `redis://${config.DATABASE_REDIS}:6380` });
+    this.redis = createClient({ url: `redis://${config.DATABASE_REDIS}:${config.DATABASE_REDIS_PORT}` });
     this.redis.connect().catch(console.error);
   }
   async createBattle(input: CreateBattleInput) {

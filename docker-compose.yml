@@ -11,14 +11,18 @@ services:
       - .env
     networks:
       - ram-shared-network
+    depends_on:
+      - redis
 
   redis:
     image: redis:7.2-alpine
     container_name: redis
     ports:
-      - '6380:6379'
+      - '6379:6379'
     volumes:
       - redis_data:/data
+    networks:
+      - ram-shared-network
     restart: always
     command: ['redis-server', '--appendonly', 'yes']
 

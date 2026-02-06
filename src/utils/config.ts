@@ -10,7 +10,8 @@ const config: configType = {
   INTERNAL_SECRET: process.env.INTERNAL_SECRET ?? '',
   RABBITMQ_URL:
     process.env.RABBITMQ_URL ?? 'amqp://guest:guest@rabbitmq_test:5672',
-  DATABASE_REDIS: process.env.DATABASE_REDIS ?? 'Battle-redis',
+  DATABASE_REDIS: process.env.DATABASE_REDIS ?? 'redis',
+  DATABASE_REDIS_PORT: Number(process.env.DATABASE_REDIS_PORT ?? 6379),
 };
 
 export { config };

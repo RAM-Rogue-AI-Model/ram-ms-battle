@@ -4,6 +4,7 @@ interface configType {
   API_GATEWAY_URL: string;
   RABBITMQ_URL: string;
   DATABASE_REDIS: string;
+  DATABASE_REDIS_PORT: number;
 }
 
 export { configType };
