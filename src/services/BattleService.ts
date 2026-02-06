@@ -87,6 +87,8 @@ export class BattleService {
 
         if (effect.modificator == '+') {
           battle.player[effect.stat_name] += effect.count;
+        } else if (effect.modificator == 'x') {
+          battle.player[effect.stat_name] *= effect.count;
         } else if (effect.modificator == '-') {
           battle.player[effect.stat_name] -= effect.count;
         }
