@@ -6,15 +6,31 @@ import { Actions } from '../types/Actions';
 import { Battle } from '../types/Battle';
 import { CreateBattleInput } from '../types/battleTypes';
 import { Enemy } from '../types/Enemy';
-import { sendLog } from '../utils/message';
 import { config } from '../utils/config';
+import { sendLog } from '../utils/message';
 
 export class BattleService {
   private redis: RedisClientType;
 
   constructor() {
-    this.redis = createClient({ url: `redis://${config.DATABASE_REDIS}:${config.DATABASE_REDIS_PORT}` });
-    this.redis.connect().catch(console.error);
+    this.redis = createClient({
+      url: `redis://${config.DATABASE_REDIS}:${config.DATABASE_REDIS_PORT}`,
+    });
+
+    this.redis.on('connect', () => {
+      // eslint-disable-next-line no-console
+      console.log('✅ Connected to Redis successfully');
+    });
+
+    // Écouteur en cas d'erreur
+    this.redis.on('error', (err) => {
+      console.error('❌ Redis Client Error:', err);
+    });
+
+    // Lancement de la connexion
+    this.redis.connect().catch((err: unknown) => {
+      console.error('❌ Failed to connect to Redis:', err);
+    });
   }
   async createBattle(input: CreateBattleInput) {
     const id = uuidv4();
