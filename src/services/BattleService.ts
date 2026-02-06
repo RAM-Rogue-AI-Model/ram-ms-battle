@@ -7,12 +7,13 @@ import { Battle } from '../types/Battle';
 import { CreateBattleInput } from '../types/battleTypes';
 import { Enemy } from '../types/Enemy';
 import { sendLog } from '../utils/message';
+import { config } from '../utils/config';
 
 export class BattleService {
   private redis: RedisClientType;
 
   constructor() {
-    this.redis = createClient({ url: 'redis://127.0.0.1:6380' });
+    this.redis = createClient({ url: `redis://${config.DATABASE_REDIS}:6380` });
     this.redis.connect().catch(console.error);
   }
   async createBattle(input: CreateBattleInput) {
