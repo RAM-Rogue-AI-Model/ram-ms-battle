@@ -1,3 +1,6 @@
+import fs from 'node:fs';
+
+import cors from 'cors';
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import * as YAML from 'yaml';
@@ -5,8 +8,6 @@ import * as YAML from 'yaml';
 import { BattleController } from './controllers/BattleController';
 import { BattleRouter } from './routes/BattleRouter';
 import { BattleService } from './services/BattleService';
-import fs from 'node:fs';
-import cors from 'cors'
 import { config } from './utils/config';
 
 const app = express();
