@@ -86,13 +86,13 @@ export class BattleService {
         effect.duration = effect.duration - 1;
 
         if (effect.modificator == '+') {
-          if(effect.stat_name === "pv") battle.pv += effect.count
+          if(effect.stat_name === "pv") battle.pv = Math.min(battle.pv + effect.count, battle.player.pv)
           else battle.player[effect.stat_name] += effect.count;
         } else if (effect.modificator == 'x') {
-          if(effect.stat_name === "pv") battle.pv *= effect.count
+          if(effect.stat_name === "pv") battle.pv = Math.min(battle.pv * effect.count, battle.player.pv)
           else battle.player[effect.stat_name] *= effect.count;
         } else if (effect.modificator == '-') {
-          if(effect.stat_name === "pv") battle.pv -= effect.count
+          if(effect.stat_name === "pv") battle.pv = Math.min(battle.pv - effect.count)
           else battle.player[effect.stat_name] -= effect.count;
         }
       });
